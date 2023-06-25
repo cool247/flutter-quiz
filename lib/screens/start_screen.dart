@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-const Color buttonColor = Color.fromARGB(255, 253, 255, 188);
+const Color buttonColor = Color.fromARGB(255, 248, 253, 177);
 
 class StartScreen extends StatelessWidget {
   const StartScreen(this.onStartQuiz, {super.key});

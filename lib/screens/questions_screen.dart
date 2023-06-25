@@ -1,12 +1,16 @@
 import 'dart:math';
-
+import 'package:google_fonts/google_fonts.dart';
+//
 import 'package:flutter/material.dart';
 import 'package:quiz/constant/questions.dart';
+import 'package:quiz/screens/start_screen.dart';
 
 Random randomize = Random();
 
 class QuestionScreen extends StatefulWidget {
-  const QuestionScreen({super.key});
+  const QuestionScreen(this.onSelectAnswer, {super.key});
+  final void Function(String) onSelectAnswer;
+
   @override
   State<QuestionScreen> createState() => _QuestionScreen();
 }
@@ -14,15 +18,25 @@ class QuestionScreen extends StatefulWidget {
 class _QuestionScreen extends State<QuestionScreen> {
   int currentQuestionIndex = 0;
 
-  void onAnswer() {
-    setState(() {
-      currentQuestionIndex++;
-    });
+  void onAnswer(String answeredText) {
+    widget.onSelectAnswer(answeredText);
+
+    if ((questions.length - 1) > currentQuestionIndex) {
+      setState(() {
+        currentQuestionIndex++;
+      });
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     final currentQuestion = questions[currentQuestionIndex];
+
+    final questionTextStyle = GoogleFonts.ptMono(
+      fontWeight: FontWeight.bold,
+      color: const Color.fromARGB(255, 255, 230, 255),
+      fontSize: 16,
+    );
 
     return SizedBox(
       width: double.infinity,
@@ -37,11 +51,7 @@ class _QuestionScreen extends State<QuestionScreen> {
               child: Text(
                 currentQuestion.text,
                 textAlign: TextAlign.center,
-                style: const TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w500,
-                  color: Colors.white,
-                ),
+                style: questionTextStyle,
               ),
             ),
             const SizedBox(height: 40),
@@ -60,28 +70,40 @@ class _QuestionScreen extends State<QuestionScreen> {
 class AnswerButton extends StatelessWidget {
   const AnswerButton(this.answerText, this.onTap, {super.key});
   final String answerText;
-  final void Function() onTap;
+  final void Function(String) onTap;
 
   @override
   Widget build(BuildContext context) {
+    final answerTextStyle = GoogleFonts.comicNeue(
+      fontSize: 14,
+      fontWeight: FontWeight.w600,
+      color: Colors.black,
+      letterSpacing: 1.5,
+    );
+
     return Padding(
       padding: const EdgeInsets.only(bottom: 12),
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
-          shape:
-              const StadiumBorder(side: BorderSide(color: Colors.transparent)),
-          foregroundColor: Colors.white,
-          backgroundColor: const Color.fromARGB(255, 83, 13, 103),
+          shape: const StadiumBorder(
+            side: BorderSide(
+              color: buttonColor,
+            ),
+          ),
+          // foregroundColor: Colors.black87,
+          backgroundColor: buttonColor.withOpacity(0.97),
           elevation: 2,
           padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 16),
-          minimumSize: const Size(200, 40),
-          maximumSize: const Size(400, 80),
+          minimumSize: const Size(300, 40),
+          // maximumSize: const Size(400, 60),
         ),
-        onPressed: onTap,
+        onPressed: () {
+          onTap(answerText);
+        },
         child: Text(
           answerText,
           textAlign: TextAlign.center,
-          style: const TextStyle(fontSize: 12, color: Colors.white),
+          style: answerTextStyle,
         ),
       ),
     );
