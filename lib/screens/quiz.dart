@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:quiz/constant/questions.dart';
 //
 import 'package:quiz/screens/questions_screen.dart';
@@ -21,16 +20,6 @@ class _QuizState extends State<Quiz> {
   //
   String activeScreen = "start_screen";
   List<String> answeredQuestions = [];
-
-  @override
-  void initState() {
-    super.initState();
-
-    googleFontsPending = GoogleFonts.pendingFonts([
-      GoogleFonts.ptMono(),
-      GoogleFonts.comicNeue(),
-    ]);
-  }
 
   void onChooseAnswer(String answer) {
     answeredQuestions.add(answer);
@@ -68,13 +57,12 @@ class _QuizState extends State<Quiz> {
 
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(useMaterial3: true, colorScheme: lightColorScheme),
-      darkTheme: ThemeData(useMaterial3: true, colorScheme: darkColorScheme),
+      theme: ThemeData.from(useMaterial3: true, colorScheme: lightColorScheme),
+      darkTheme:
+          ThemeData.from(useMaterial3: true, colorScheme: darkColorScheme),
       themeMode: ThemeMode.system,
       home: Scaffold(
         body: screenWidget,
-        backgroundColor:
-            Theme.of(context).colorScheme.background.withOpacity(0.9),
       ),
     );
   }

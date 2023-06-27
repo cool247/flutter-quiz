@@ -73,7 +73,7 @@ class AnswerButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // final Color buttonColor = Theme.of(context).colorScheme.primary;
+    final Color buttonColor = Theme.of(context).colorScheme.onPrimary;
     final answerTextStyle = GoogleFonts.comicNeue(
       fontSize: 14,
       fontWeight: FontWeight.w900,
@@ -84,6 +84,7 @@ class AnswerButton extends StatelessWidget {
       padding: const EdgeInsets.only(bottom: 12),
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
+          backgroundColor: buttonColor,
           shape: const StadiumBorder(
             side: BorderSide(),
           ),

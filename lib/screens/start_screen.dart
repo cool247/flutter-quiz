@@ -7,7 +7,7 @@ class StartScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Color buttonColor = Theme.of(context).colorScheme.primary;
+    final Color buttonColor = Theme.of(context).colorScheme.onPrimary;
     return Center(
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -27,16 +27,12 @@ class StartScreen extends StatelessWidget {
           ),
           const SizedBox(height: 20),
           OutlinedButton.icon(
+            icon: const Icon(Icons.arrow_right_alt),
             onPressed: onStartQuiz,
             style: OutlinedButton.styleFrom(
-              elevation: 1.0,
-              shape: const StadiumBorder(side: BorderSide()),
-              side: const BorderSide(
-                width: 2,
-                strokeAlign: 3.0,
-              ),
-            ),
-            icon: const Icon(Icons.arrow_right_alt),
+                // foregroundColor: Colors.white,
+                elevation: 4,
+                backgroundColor: buttonColor),
             label: const Text(
               "Start Quiz",
             ),

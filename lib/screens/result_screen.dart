@@ -69,8 +69,8 @@ class QuestionsSummary extends StatelessWidget {
   Widget build(BuildContext context) {
     Color getColor(correctAnswer, userAnswer) {
       return correctAnswer == userAnswer
-          ? const Color.fromARGB(255, 108, 255, 113)
-          : const Color.fromARGB(255, 255, 168, 118);
+          ? const Color.fromARGB(255, 65, 153, 68)
+          : const Color.fromARGB(255, 244, 75, 75);
     }
 
     return SingleChildScrollView(
@@ -100,9 +100,6 @@ class QuestionsSummary extends StatelessWidget {
                           ((item['question_index'] as int) + 1).toString(),
                         ),
                       ),
-                    ),
-                    const Text(
-                      ".",
                     ),
                     Expanded(
                       child: Column(
