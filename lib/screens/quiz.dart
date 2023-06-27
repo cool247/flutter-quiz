@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:quiz/constant/questions.dart';
@@ -7,6 +5,7 @@ import 'package:quiz/constant/questions.dart';
 import 'package:quiz/screens/questions_screen.dart';
 import 'package:quiz/screens/result_screen.dart';
 import 'package:quiz/screens/start_screen.dart';
+import 'package:quiz/theme/color_schemes.dart';
 
 class Quiz extends StatefulWidget {
   const Quiz({super.key});
@@ -69,21 +68,13 @@ class _QuizState extends State<Quiz> {
 
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      theme: ThemeData.light(useMaterial3: true),
+      theme: ThemeData(useMaterial3: true, colorScheme: lightColorScheme),
+      darkTheme: ThemeData(useMaterial3: true, colorScheme: darkColorScheme),
+      themeMode: ThemeMode.system,
       home: Scaffold(
-        body: Container(
-          decoration: const BoxDecoration(
-            gradient: LinearGradient(
-              colors: [
-                Color.fromARGB(255, 181, 20, 221),
-                Color.fromARGB(255, 133, 30, 129)
-              ],
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-            ),
-          ),
-          child: screenWidget,
-        ),
+        body: screenWidget,
+        backgroundColor:
+            Theme.of(context).colorScheme.background.withOpacity(0.9),
       ),
     );
   }

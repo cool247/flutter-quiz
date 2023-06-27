@@ -3,7 +3,6 @@ import 'package:google_fonts/google_fonts.dart';
 //
 import 'package:flutter/material.dart';
 import 'package:quiz/constant/questions.dart';
-import 'package:quiz/screens/start_screen.dart';
 
 Random randomize = Random();
 
@@ -34,7 +33,7 @@ class _QuestionScreen extends State<QuestionScreen> {
 
     final questionTextStyle = GoogleFonts.ptMono(
       fontWeight: FontWeight.bold,
-      color: const Color.fromARGB(255, 255, 230, 255),
+      color: Theme.of(context).colorScheme.primary,
       fontSize: 16,
     );
 
@@ -54,7 +53,7 @@ class _QuestionScreen extends State<QuestionScreen> {
                 style: questionTextStyle,
               ),
             ),
-            const SizedBox(height: 40),
+            const SizedBox(height: 20),
             ...currentQuestion.getShuffledAnswerList().map(
               (item) {
                 return AnswerButton(item, onAnswer);
@@ -74,10 +73,10 @@ class AnswerButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // final Color buttonColor = Theme.of(context).colorScheme.primary;
     final answerTextStyle = GoogleFonts.comicNeue(
       fontSize: 14,
-      fontWeight: FontWeight.w600,
-      color: Colors.black,
+      fontWeight: FontWeight.w900,
       letterSpacing: 1.5,
     );
 
@@ -86,12 +85,10 @@ class AnswerButton extends StatelessWidget {
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
           shape: const StadiumBorder(
-            side: BorderSide(
-              color: buttonColor,
-            ),
+            side: BorderSide(),
           ),
           // foregroundColor: Colors.black87,
-          backgroundColor: buttonColor.withOpacity(0.97),
+          // backgroundColor: buttonColor.withOpacity(0.97),
           elevation: 2,
           padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 16),
           minimumSize: const Size(300, 40),

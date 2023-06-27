@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:quiz/constant/questions.dart';
-import 'package:quiz/screens/start_screen.dart';
 
 class ResultScreen extends StatelessWidget {
   const ResultScreen(this.chosenAnswers, this.reset, {super.key});
@@ -25,9 +24,10 @@ class ResultScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    int correctAnswers = getResultSummary()
-        .where((el) => el['correct_answer'] == el['user_answer'])
-        .length;
+    final List<Map<String, Object>> summary = getResultSummary();
+    final int correctAnswers =
+        summary.where((el) => el['correct_answer'] == el['user_answer']).length;
+    final Color buttonColor = Theme.of(context).colorScheme.onPrimary;
 
     return SafeArea(
       child: SizedBox(
@@ -38,14 +38,11 @@ class ResultScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                'you answered $correctAnswers out of ${chosenAnswers.length} questions correctly!',
+                'You answered $correctAnswers out of ${chosenAnswers.length} questions correctly!',
                 textAlign: TextAlign.center,
-                style: Theme.of(context)
-                    .textTheme
-                    .titleLarge!
-                    .copyWith(color: Colors.white),
+                style: Theme.of(context).textTheme.titleLarge,
               ),
-              QuestionsSummary(getResultSummary()),
+              QuestionsSummary(summary),
               OutlinedButton.icon(
                 icon: const Icon(Icons.refresh_rounded),
                 onPressed: reset,
@@ -78,57 +75,63 @@ class QuestionsSummary extends StatelessWidget {
 
     return SingleChildScrollView(
       child: SizedBox(
-        height: 600,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: summary.map((item) {
-            return Padding(
-              padding: const EdgeInsets.only(bottom: 8.0, left: 8),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(0, 8, 8, 0),
-                    child: CircleAvatar(
-                      radius: 16,
-                      backgroundColor:
-                          getColor(item['correct_answer'], item['user_answer']),
-                      child: Text(
-                        ((item['question_index'] as int) + 1).toString(),
+        height: 400,
+        child: SingleChildScrollView(
+          physics: const ScrollPhysics(
+            parent: BouncingScrollPhysics(
+              decelerationRate: ScrollDecelerationRate.normal,
+            ),
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: summary.map((item) {
+              return Padding(
+                padding: const EdgeInsets.only(bottom: 8.0, left: 8),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(0, 8, 8, 0),
+                      child: CircleAvatar(
+                        radius: 16,
+                        backgroundColor: getColor(
+                            item['correct_answer'], item['user_answer']),
+                        child: Text(
+                          ((item['question_index'] as int) + 1).toString(),
+                        ),
                       ),
                     ),
-                  ),
-                  const Text(
-                    ".",
-                  ),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          (item['question'] as String),
-                          style: const TextStyle(color: Colors.white),
-                          // overflow: TextOverflow.ellipsis,
-                          softWrap: true,
-                        ),
-                        Text(item['correct_answer'] as String,
-                            style: const TextStyle(color: Colors.white)),
-                        Text(
-                          item['user_answer'] as String,
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w500,
-                            color: getColor(
-                                item['correct_answer'], item['user_answer']),
-                          ),
-                        ),
-                      ],
+                    const Text(
+                      ".",
                     ),
-                  )
-                ],
-              ),
-            );
-          }).toList(),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            (item['question'] as String),
+                            // style: const TextStyle(color: Colors.white),
+                            // overflow: TextOverflow.ellipsis,
+                            softWrap: true,
+                          ),
+                          Text(
+                            item['correct_answer'] as String,
+                          ),
+                          Text(
+                            item['user_answer'] as String,
+                            style: TextStyle(
+                              color: getColor(
+                                  item['correct_answer'], item['user_answer']),
+                            ),
+                          ),
+                        ],
+                      ),
+                    )
+                  ],
+                ),
+              );
+            }).toList(),
+          ),
         ),
       ),
     );
